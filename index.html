@@ -13,7 +13,7 @@
         <h1 class="text-center">Welcome to Pioneer Bank</h1>
         <div class="submit-area">
             <h4>Login</h4>
-            <input type="text" class="form-control" placeholder="Email" name="" id="">
+            <input type="email" class="form-control" placeholder="Email" name="" id="">
             <br>
             <input type="password" class="form-control" placeholder="password" name="" id="">
             <br>
@@ -37,7 +37,7 @@
             <div class="col-md-4">
                 <div class="balance status">
                     <h5>Balance</h5>
-                    <h4>$ <span id="currentBalance">1240</span></h4>
+                    <h4>$ <span id="currentBalance">00</span></h4>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Deposit</h4>
-                    <input id="depositAmount" type="text" class="form-control" placeholder="$ amount you want to deposit">
+                    <input id="depositAmount" type="number" class="form-control" placeholder="$ amount you want to deposit">
                     <br>
                     <button id="addDeposit" class="btn btn-success">Deposit</button>
                 </div>
@@ -53,7 +53,7 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Withdraw</h4>
-                    <input id="withdrawAmount" type="text" class="form-control" placeholder="$ amount you want to withdraw">
+                    <input id="withdrawAmount" type="number" class="form-control" placeholder="$ amount you want to withdraw">
                     <br>
                     <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                 </div>
@@ -79,15 +79,20 @@
 
             document.getElementById("depositAmount").value = "";
         })
+       
         // Withdraw button event handler
         const withdrawBtn = document.getElementById("addWithdraw");
         withdrawBtn.addEventListener("click", function(){
             const withdrawNumber = getInputNumber("withdrawAmount");
-
-            updateSpanText("currentWithdraw", withdrawNumber);
-            updateSpanText("currentBalance", -1 * withdrawNumber);
-
+                      
+            if (withdrawNumber <= parseFloat(currentBalance.innerText)) {
+                updateSpanText("currentWithdraw", withdrawNumber);
+                updateSpanText("currentBalance", -1 * withdrawNumber);
+                document.getElementById("withdrawAmount").value = "";
+            } else {alert("Insufficient balance");
             document.getElementById("withdrawAmount").value = "";
+            }
+
         })
         function getInputNumber(id){
             const amount = document.getElementById(id).value;
