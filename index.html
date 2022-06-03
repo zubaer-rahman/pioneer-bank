@@ -45,7 +45,7 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Deposit</h4>
-                    <input id="depositAmount" type="number" class="form-control" placeholder="$ amount you want to deposit">
+                    <input id="depositAmount" min="1" oninput="validity.valid||(value='');" type="number" class="form-control" placeholder="$ amount you want to deposit">
                     <br>
                     <button id="addDeposit" class="btn btn-success">Deposit</button>
                 </div>
@@ -53,7 +53,7 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Withdraw</h4>
-                    <input id="withdrawAmount" type="number" class="form-control" placeholder="$ amount you want to withdraw">
+                    <input id="withdrawAmount" min="1" oninput="validity.valid||(value='');" type="number" class="form-control" placeholder="$ amount you want to withdraw">
                     <br>
                     <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                 </div>
@@ -74,22 +74,33 @@
         depositBtn.addEventListener("click", function(){
             const depositNumber = getInputNumber("depositAmount");
 
+            if (!depositNumber) {
+                alert("Enter proper amount. It cant't be empty");
+            }
+            else {    
             updateSpanText("currentDeposit", depositNumber);
             updateSpanText("currentBalance", depositNumber);
 
             document.getElementById("depositAmount").value = "";
+            }
         })
        
         // Withdraw button event handler
         const withdrawBtn = document.getElementById("addWithdraw");
         withdrawBtn.addEventListener("click", function(){
-            const withdrawNumber = getInputNumber("withdrawAmount");
-                      
-            if (withdrawNumber <= parseFloat(currentBalance.innerText)) {
+            const withdrawNumber = getInputNumber("withdrawAmount");    
+
+             
+            if (!withdrawNumber) {
+                alert("Enter proper amount. It cant't be empty");
+            } 
+            else if (withdrawNumber <= parseFloat(currentBalance.innerText)) {
                 updateSpanText("currentWithdraw", withdrawNumber);
                 updateSpanText("currentBalance", -1 * withdrawNumber);
+                
                 document.getElementById("withdrawAmount").value = "";
-            } else {alert("Insufficient balance");
+            }
+            else {alert("Insufficient balance");
             document.getElementById("withdrawAmount").value = "";
             }
 
